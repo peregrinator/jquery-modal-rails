@@ -1,6 +1,6 @@
 /*
     A simple jQuery modal (http://github.com/kylefox/jquery-modal)
-    Version 0.5.4
+    Version 0.5.5
 */
 (function($) {
 
@@ -94,7 +94,7 @@
     unblock: function() {
       if(this.options.doFade) {
         this.blocker.fadeOut(this.options.fadeDuration, function() {
-          this.remove();
+          $(this).remove();
         });
       } else {
         this.blocker.remove();
@@ -104,7 +104,7 @@
     show: function() {
       this.$elm.trigger($.modal.BEFORE_OPEN, [this._ctx()]);
       if (this.options.showClose) {
-        this.closeButton = $('<a href="#close-modal" rel="modal:close" class="close-modal">' + this.options.closeText + '</a>');
+        this.closeButton = $('<a href="#close-modal" rel="modal:close" class="close-modal ' + this.options.closeClass + '">' + this.options.closeText + '</a>');
         this.$elm.append(this.closeButton);
       }
       this.$elm.addClass(this.options.modalClass + ' current');
@@ -176,6 +176,11 @@
     current.resize();
   };
 
+  // Returns if there currently is an active modal
+  $.modal.isActive = function () {
+    return current ? true : false;
+  }
+
   $.modal.defaults = {
     overlay: "#000",
     opacity: 0.75,
@@ -183,6 +188,7 @@
     escapeClose: true,
     clickClose: true,
     closeText: 'Close',
+    closeClass: '',
     modalClass: "modal",
     spinnerHtml: null,
     showSpinner: true,
